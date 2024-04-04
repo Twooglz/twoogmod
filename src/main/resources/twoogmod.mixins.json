@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.twooglz.twoogmod.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
+  "client": [
+    "FOVMixin",
+    "OnChatMessage"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
