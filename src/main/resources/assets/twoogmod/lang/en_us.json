@@ -1,0 +1,17 @@
+{
+  "text.config.twoogmod-config.title": "TwoogMod Config",
+  "text.config.twoogmod-config.option.elytraHudEnabled": "ElytraHUD",
+
+  "text.config.twoogmod-config.option.elytraHudYLevelOverworldGreenThresh": "Overworld Y level green threshold",
+  "text.config.twoogmod-config.option.elytraHudYLevelOverworldYellowThresh": "Overworld Y level yellow threshold",
+  "text.config.twoogmod-config.option.elytraHudYLevelNetherGreenThresh": "Nether Y level green threshold",
+  "text.config.twoogmod-config.option.elytraHudYLevelNetherYellowThresh": "Nether Y level yellow threshold",
+  "text.config.twoogmod-config.option.elytraHudYLevelEndGreenThresh": "End Y level green threshold",
+  "text.config.twoogmod-config.option.elytraHudYLevelEndYellowThresh": "End Y level yellow threshold",
+
+  "text.config.twoogmod-config.option.elytraHudHSpeedGreenThresh": "Horizontal speed green threshold",
+  "text.config.twoogmod-config.option.elytraHudHSpeedYellowThresh": "Horizontal speed yellow threshold",
+
+  "text.config.twoogmod-config.option.elytraHudVSpeedGreenThresh": "Horizontal speed green threshold",
+  "text.config.twoogmod-config.option.elytraHudVSpeedYellowThresh": "Horizontal speed yellow threshold"
+}

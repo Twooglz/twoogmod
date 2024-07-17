@@ -9,9 +9,9 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
@@ -21,50 +21,21 @@ import org.slf4j.LoggerFactory;
 import static com.mojang.brigadier.arguments.IntegerArgumentType.getInteger;
 import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
+import me.twooglz.twoogmod.TwoogConfig;
 
 
 public class TwoogMod implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("twoogmod");
-
+	public static final TwoogConfig CONFIG = TwoogConfig.createAndLoad();
 
 	@Override
 	public void onInitialize() {
 
 		LOGGER.info("Loading TwoogMod");
+		ElytraHud elytraHud = new ElytraHud();
 
-		HudRenderCallback.EVENT.register(new ElytraHud());
+		HudRenderCallback.EVENT.register(elytraHud);
 		ClientTickEvents.START_CLIENT_TICK.register(new Speedometer());
-
-		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(literal("zandkoek")
-				.then(argument("amount", integer())
-					.then(argument("delay (ms)", integer())
-						.executes(context -> {
-							final int amount = getInteger(context, "amount");
-							final int delay = getInteger(context, "delay (ms)");
-							ClientPlayerEntity clientPlayer = MinecraftClient.getInstance().player;
-
-							new Thread(() -> {
-								for (int i = 420; i < 420 + amount; i++) {
-									twoogLog("Spawning zandkoekje" + i);
-                                    assert clientPlayer != null;
-                                    clientPlayer.networkHandler.sendChatCommand("player zandkoekje" + i + " spawn");
-									try {
-										Thread.sleep(delay);
-									} catch (InterruptedException e) {
-										throw new RuntimeException(e);
-									}
-
-								}
-							}).start();
-
-							return 1;
-
-						})
-					)
-				)
-			)
-		);
-
 
 		// Pack folder
 
@@ -77,15 +48,23 @@ public class TwoogMod implements ModInitializer {
 				return 1;
 			}))
 		);
+
+		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("getdim")
+				.executes(context -> {
+					twoogLog(MinecraftClient.getInstance().world.getDimensionEntry().getIdAsString());
+					return 1;
+				})
+		));
 	}
 	public static void twoogLog(String message) {
         assert MinecraftClient.getInstance().player != null;
-        MinecraftClient.getInstance().player.sendMessage(Text.literal("§6§l[§b§lTC§6§l]§a " + message));
+        MinecraftClient.getInstance().player.sendMessage(Text.literal("§6§l[§b§lTM§6§l]§a " + message));
 	}
 
 	public static void twoogLogWarn(String message) {
         assert MinecraftClient.getInstance().player != null;
-        MinecraftClient.getInstance().player.sendMessage(Text.literal("§6§l[§b§lTC§6§l]§c " + message));
+        MinecraftClient.getInstance().player.sendMessage(Text.literal("§6§l[§b§lTM§6§l]§c " + message));
 	}
+
 
 }
